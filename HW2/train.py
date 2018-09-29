@@ -6,7 +6,7 @@ from keras.layers.core import Dense, Activation
 import matplotlib.pyplot as plt
 epoch = 500
 batch = 4096
-model1_name = str(epoch) + "model1_"
+model1_name = str(epoch) + "_model1"
 
 ### inputs a x array, outputs the corresponding y array
 def target_function(x):
@@ -35,7 +35,8 @@ def output_func_points(func1,x,path):
 
 ### 50000 points between [0,2pi]
 x = np.linspace(0,2*math.pi,50000)
-output_func_points(target_function,x,"train_data1")
+### outputs the y points and save it (only need to run it once)
+#output_func_points(target_function,x,"train_data1")
 y = np.load("train_data1.npy")
 
 ### training

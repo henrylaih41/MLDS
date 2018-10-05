@@ -1,0 +1,13 @@
+python3 Gradient_norm.py
+
+python3 minimal_ratio.py
+
+cd Visualize 
+python3 pca.py
+
+For error surface:
+python3 Gradient_train.py
+python3 Hessian_train.py
+python3 Add_noise.py (會跑很久)
+python3 tsne_and_plot.py
+

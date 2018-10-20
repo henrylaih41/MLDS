@@ -1,0 +1,11 @@
+python3 Gradient_train.py 32
+python3 Gradient_train.py 64
+python3 Gradient_train.py 128
+python3 Gradient_train.py 256
+python3 Gradient_train.py 512
+python3 Gradient_train.py 1024
+python3 Gradient_train.py 2048
+python3 Gradient_train.py 4096
+python3 Gradient_train.py 8192
+python3 Gradient_train.py 16384
+python3 Gradient_train.py 32768

@@ -10,17 +10,16 @@ def tsne_manifold(Weights):
 def add_noise(origin):
     l = []
     for w in origin:
-        n_w = w + np.random.normal(scale = 0.0001,size = w.shape)
+        n_w = w + np.random.normal(scale = 0.001,size = w.shape)
         l.append(n_w)
     return np.array(l)
      
 def to_flat_array(tensors):
     _buf = np.array([ sess.run(p).reshape(-1) for p in tensors])
-    flat_list = [item for sublist in _buf for item in sublist]
-    flat_array = np.array(flat_list).reshape(-1)
+    flat_array = np.hstack(_buf)
     return flat_array
 
-def get_noise_loss(origin,noise,sess,m_x,m_y):
+def get_noise_loss(origin,noise,m_x,m_y):
     temp = origin
     temp_op = sess.run(temp)
     for idx, weights in enumerate(noise):
@@ -75,24 +74,28 @@ YY = tf.reshape(Y,[-1,1])
 loss_mse = tf.losses.mean_squared_error(YY,pred)
 
 saver = tf.train.Saver()
+_paras = [W1,W2,W3,W4,B1,B2,B3,B4]
 # Training #
 with tf.Session() as sess:
     for epoch in range(6):
         loss_list = []
         saver.restore(sess,"./models/tf_model" + str(epoch) + ".ckpt")
         origin_loss = sess.run(loss_mse,{X: m_x,Y: m_y})
-        loss_list.append(origin_loss)
         _paras = [W1,W2,W3,W4,B1,B2,B3,B4]
-        flat_weights = [to_flat_array(_paras)]
+        flat_weights = [to_flat_array(_paras)] 
         noise_list = get_noise_list(_paras,num=50)
-        for noise in noise_list:
-            noise_loss = get_noise_loss(_paras,noise,sess,m_x,m_y)
+        print("HIIIIIII")
+        for idx,noise in enumerate(noise_list):
+            noise_loss = get_noise_loss(_paras,noise,m_x,m_y)
+            tf.get_default_graph().finalize()
             loss_list.append(noise_loss)
             flat_noise = to_flat_array(noise)
-            flat_weights.append(flat_noise)
+            flat_weigxhts.append(flat_noise)
+            print(idx)
 
         flat_weights = np.array(flat_weights)    
         loss_list = np.array(loss_list)
+        print(loss_list)
         np.save("./data/cordin50_" + str(epoch),flat_weights)
         np.save("./data/loss50_" + str(epoch),loss_list)
         print("Epoch: ",epoch)

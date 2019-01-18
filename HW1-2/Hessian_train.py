@@ -77,4 +77,4 @@ with tf.Session() as sess:
         _, loss = sess.run([update,loss_mse],\
                                  {X: m_x, Y: m_y})
         print("Epoch: ", epoch, "Loss: ", loss)
-        print(saver.save(sess,"./models/tf_m0_" + str(epoch + 1) + ".ckpt"))
+        print(saver.save(sess,model,global_step=epoch))
